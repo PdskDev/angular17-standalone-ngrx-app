@@ -1,0 +1,14 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "NadetDev Angular 17 Standalone NgRX app",
+      "author": "NadetDev"
+    },
+    {
+      "id": "a502",
+      "title": "Angular 17 is funny",
+      "author": "Staff"
+    }
+  ]
+}
