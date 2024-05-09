@@ -1,28 +1,42 @@
 import { Component, OnInit } from '@angular/core';
 import { MasterService } from '../../_service/master.service';
 import { Post } from '../../../_model/post';
+import { Customer } from '../../../_model/customer';
+import { map, switchMap } from 'rxjs';
+import { ListeOfCustomers } from '../../../_model/listeOfCustomer';
+import { AppMaterialModule } from '../../../_module/material.module';
+import { MatTableDataSource } from '@angular/material/table';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-customer',
   standalone: true,
-  imports: [],
+  imports: [AppMaterialModule, CommonModule],
   providers: [],
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css',
 })
 export class CustomerComponent implements OnInit {
   listPosts!: Post[];
+  listCustomers!: Customer[];
+  customersDataSource: any;
+  customerDisplayColumn: string[] = ['code', 'name', 'email', 'phone'];
 
   constructor(private masterService: MasterService) {}
   ngOnInit(): void {
-    this.loadInitialData();
+    //this.loadInitialPostsData();
+    this.loadInitialCustomersData();
   }
 
-  loadInitialData() {
-    this.masterService
-      .getAll()
-      .subscribe((result) => (this.listPosts = result));
-
-    console.log(this.listPosts);
+  loadInitialCustomersData() {
+    this.masterService.getApiCustomersAll().subscribe({
+      next: (list: ListeOfCustomers) => {
+        this.listCustomers = list.data;
+        this.customersDataSource = new MatTableDataSource(this.listCustomers);
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 }

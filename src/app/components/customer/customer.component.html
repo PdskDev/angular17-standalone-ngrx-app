@@ -1,1 +1,15 @@
-<p>customer works!</p>
+<mat-card>
+  <mat-card-header>
+    <h2>Customer</h2>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="customersDataSource">
+      <ng-container matColumnDef="{{innercolumn}}" *ngFor="let innercolumn of customerDisplayColumn">
+        <th mat-header-cell *matHeaderCellDef>{{innercolumn}}</th>
+        <th mat-cell *matCellDef="let element">{{element[innercolumn]}}</th>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="customerDisplayColumn" style="background-color: cornflowerblue; color: white;"></tr>
+      <tr mat-row *matRowDef="let row; columns: customerDisplayColumn"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

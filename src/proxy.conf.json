@@ -1,0 +1,11 @@
+{
+  "/bff": {
+    "target": "http://localhost:13000",
+    "secure": false,
+    "pathRewrite": {
+      "^/bff":""
+    },
+    "changeOrigin": false,
+    "logLevel": "debug"
+  }
+}
