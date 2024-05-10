@@ -9,10 +9,11 @@ import {
   loadCustomer,
   loadCustomerFail,
   loadCustomerSuccess,
+  showAlert,
   updateCustomer,
   updateCustomerSuccess,
 } from './customers.actions';
-import { catchError, exhaustMap, map, of } from 'rxjs';
+import { catchError, exhaustMap, map, of, switchMap } from 'rxjs';
 
 @Injectable()
 export class CustomerEffects {
@@ -40,13 +41,25 @@ export class CustomerEffects {
   _addCustomer = createEffect(() =>
     this.actions$.pipe(
       ofType(addCustomer),
-      exhaustMap((action) => {
+      switchMap((action) => {
         return this.masterService.createNewCustomer(action.customerData).pipe(
-          map((newCustomerAdded) => {
-            return addCustomerSuccess();
+          switchMap(() => {
+            return of(
+              addCustomerSuccess(),
+              showAlert({
+                message: 'New Customer added successfully!',
+                messageType: 'pass',
+              })
+            );
           }),
           catchError((_error) =>
-            of(loadCustomerFail({ errorMessage: _error.message }))
+            of(
+              loadCustomerFail({ errorMessage: _error.message }),
+              showAlert({
+                message: 'Failed to add New Customer!',
+                messageType: 'failed',
+              })
+            )
           )
         );
       })
@@ -56,13 +69,25 @@ export class CustomerEffects {
   _updateCustomer = createEffect(() =>
     this.actions$.pipe(
       ofType(updateCustomer),
-      exhaustMap((action) => {
+      switchMap((action) => {
         return this.masterService.createNewCustomer(action.customerData).pipe(
-          map((customerUpdated) => {
-            return updateCustomerSuccess();
+          switchMap(() => {
+            return of(
+              updateCustomerSuccess(),
+              showAlert({
+                message: 'Customer updated successfully!',
+                messageType: 'pass',
+              })
+            );
           }),
           catchError((_error) =>
-            of(loadCustomerFail({ errorMessage: _error.message }))
+            of(
+              loadCustomerFail({ errorMessage: _error.message }),
+              showAlert({
+                message: 'Fail to update a Customer!',
+                messageType: 'failed',
+              })
+            )
           )
         );
       })
@@ -72,13 +97,25 @@ export class CustomerEffects {
   _deleteCustomer = createEffect(() =>
     this.actions$.pipe(
       ofType(deleteCustomer),
-      exhaustMap((action) => {
+      switchMap((action) => {
         return this.masterService.deleteCustomer(action.id).pipe(
-          map((customerDeleted) => {
-            return deleteCustomerSuccess();
+          switchMap(() => {
+            return of(
+              deleteCustomerSuccess(),
+              showAlert({
+                message: 'Customer deleted successfully!',
+                messageType: 'pass',
+              })
+            );
           }),
           catchError((_error) =>
-            of(loadCustomerFail({ errorMessage: _error.message }))
+            of(
+              loadCustomerFail({ errorMessage: _error.message }),
+              showAlert({
+                message: 'Failed to delete a Customer!',
+                messageType: 'failed',
+              })
+            )
           )
         );
       })
