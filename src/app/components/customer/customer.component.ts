@@ -12,11 +12,12 @@ import { loadCustomer } from '../../_store/customers/customers.actions';
 import { selectCustomersList } from '../../_store/customers/customers.selectors';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-customer',
   standalone: true,
-  imports: [AppMaterialModule, CommonModule],
+  imports: [AppMaterialModule, CommonModule, RouterLink],
   providers: [],
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css',

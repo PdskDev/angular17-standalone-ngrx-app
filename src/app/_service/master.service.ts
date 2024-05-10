@@ -62,4 +62,8 @@ export class MasterService {
 
     //return of(this.demoList);
   }
+
+  hasAccessDummy() {
+    return true;
+  }
 }
