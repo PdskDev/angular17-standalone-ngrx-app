@@ -7,6 +7,9 @@ import { CustomerListResponse } from '../../../_model/customerListResponse';
 import { AppMaterialModule } from '../../../_module/material.module';
 import { MatTableDataSource } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { loadCustomer } from '../../_store/customers/customers.actions';
+import { selectCustomersList } from '../../_store/customers/customers.selectors';
 
 @Component({
   selector: 'app-customer',
@@ -22,14 +25,15 @@ export class CustomerComponent implements OnInit {
   customersDataSource: any;
   customerDisplayColumn: string[] = ['code', 'name', 'email', 'phone'];
 
-  constructor(private masterService: MasterService) {}
+  //constructor(private masterService: MasterService) {}
+  constructor(private readonly customerStore: Store) {}
   ngOnInit(): void {
     //this.loadInitialPostsData();
     this.loadInitialCustomersData();
   }
 
   loadInitialCustomersData() {
-    this.masterService.getApiCustomersAll().subscribe({
+    /* this.masterService.getApiCustomersAll().subscribe({
       next: (list: CustomerListResponse) => {
         this.listCustomers = list.data;
         this.customersDataSource = new MatTableDataSource(this.listCustomers);
@@ -37,6 +41,15 @@ export class CustomerComponent implements OnInit {
       error: (error) => {
         console.error(error);
       },
-    });
+    }); */
+
+    //Call Customer Store
+    this.customerStore.dispatch(loadCustomer());
+    this.customerStore
+      .select(selectCustomersList)
+      .subscribe((listeOfCustomers) => {
+        this.listCustomers = listeOfCustomers;
+        this.customersDataSource = new MatTableDataSource(this.listCustomers);
+      });
   }
 }
