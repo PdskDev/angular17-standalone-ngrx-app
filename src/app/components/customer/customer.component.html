@@ -3,13 +3,16 @@
     <h2>Customer</h2>
   </mat-card-header>
   <mat-card-content>
-    <table mat-table [dataSource]="customersDataSource">
+    <table mat-table matSort [dataSource]="customersDataSource">
       <ng-container matColumnDef="{{innercolumn}}" *ngFor="let innercolumn of customerDisplayColumn">
-        <th mat-header-cell *matHeaderCellDef>{{innercolumn}}</th>
+        <th mat-sort-header mat-header-cell *matHeaderCellDef>{{innercolumn}}</th>
         <th mat-cell *matCellDef="let element">{{element[innercolumn]}}</th>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="customerDisplayColumn" style="background-color: cornflowerblue; color: white;"></tr>
       <tr mat-row *matRowDef="let row; columns: customerDisplayColumn"></tr>
     </table>
   </mat-card-content>
+  <mat-card-footer>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 30, 50]" showFirstLastButtons></mat-paginator>
+  </mat-card-footer>
 </mat-card>

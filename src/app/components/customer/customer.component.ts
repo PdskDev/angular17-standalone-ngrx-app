@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MasterService } from '../../_service/master.service';
 import { Post } from '../../../_model/post';
 import { Customer } from '../../../_model/customer';
@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { loadCustomer } from '../../_store/customers/customers.actions';
 import { selectCustomersList } from '../../_store/customers/customers.selectors';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-customer',
@@ -24,6 +26,8 @@ export class CustomerComponent implements OnInit {
   listCustomers!: Customer[];
   customersDataSource: any;
   customerDisplayColumn: string[] = ['code', 'name', 'email', 'phone'];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   //constructor(private masterService: MasterService) {}
   constructor(private readonly customerStore: Store) {}
@@ -50,6 +54,8 @@ export class CustomerComponent implements OnInit {
       .subscribe((listeOfCustomers) => {
         this.listCustomers = listeOfCustomers;
         this.customersDataSource = new MatTableDataSource(this.listCustomers);
+        this.customersDataSource.paginator = this.paginator;
+        this.customersDataSource.sort = this.sort;
       });
   }
 }
