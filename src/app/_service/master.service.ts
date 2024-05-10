@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { CustomerListResponse } from '../../_model/customerListResponse';
 import { Customer, CustomerRequest } from '../../_model/customer';
-import { CustomeDeletedResponse } from '../../_model/customerDeletedResponse';
+import { CustomerDeletedResponse } from '../../_model/customerDeletedResponse';
 
 @Injectable({
   providedIn: 'root',
@@ -40,10 +40,10 @@ export class MasterService {
     });
   }
 
-  deleteCustomer(id: number): Observable<CustomeDeletedResponse> {
+  deleteCustomer(id: number): Observable<CustomerDeletedResponse> {
     const url = `/bff/api/customers:destroy?filterByTk=${id}`;
 
-    return this.http.post<CustomeDeletedResponse>(url, {
+    return this.http.post<CustomerDeletedResponse>(url, {
       headers: this.headers,
     });
   }

@@ -1,5 +1,5 @@
 import { Customer } from './customer';
 
-export interface CustomeDeletedResponse {
+export interface CustomerDeletedResponse {
   data: number;
 }
