@@ -9,6 +9,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   exports: [
@@ -22,6 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatMenuModule,
     MatToolbarModule,
     MatIconModule,
+    MatSnackBarModule,
   ],
 })
 export class AppMaterialModule {}

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Customer } from '../../../_model/customer';
+import { Customer, CustomerRequest } from '../../../_model/customer';
 
 export const LOAD_CUSTOMER = '[Customer] load customer';
 export const LOAD_CUSTOMER_SUCCESS = '[Customer] load customer success';
@@ -31,13 +31,13 @@ export const loadCustomerFail = createAction(
 
 export const addCustomer = createAction(
   ADD_CUSTOMER,
-  props<{ customerData: Customer }>()
+  props<{ customerData: CustomerRequest }>()
 );
 export const addCustomerSuccess = createAction(ADD_CUSTOMER_SUCCESS);
 
 export const updateCustomer = createAction(
   UPDATE_CUSTOMER,
-  props<{ customerData: Customer }>()
+  props<{ customerData: CustomerRequest }>()
 );
 export const updateCustomerSuccess = createAction(UPDATE_CUSTOMER_SUCCESS);
 
@@ -51,3 +51,5 @@ export const showAlert = createAction(
   SHOW_ALERT,
   props<{ message: string; messageType: string }>()
 );
+
+export const emptyAction = createAction('emptyAction');

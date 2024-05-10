@@ -6,6 +6,7 @@ import {
   addCustomerSuccess,
   deleteCustomer,
   deleteCustomerSuccess,
+  emptyAction,
   loadCustomer,
   loadCustomerFail,
   loadCustomerSuccess,
@@ -14,12 +15,14 @@ import {
   updateCustomerSuccess,
 } from './customers.actions';
 import { catchError, exhaustMap, map, of, switchMap } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class CustomerEffects {
   constructor(
     private readonly actions$: Actions,
-    private masterService: MasterService
+    private masterService: MasterService,
+    private _snakeBar: MatSnackBar
   ) {}
 
   _loadCustomers = createEffect(() =>
@@ -57,7 +60,7 @@ export class CustomerEffects {
               loadCustomerFail({ errorMessage: _error.message }),
               showAlert({
                 message: 'Failed to add New Customer!',
-                messageType: 'failed',
+                messageType: 'fail',
               })
             )
           )
@@ -85,7 +88,7 @@ export class CustomerEffects {
               loadCustomerFail({ errorMessage: _error.message }),
               showAlert({
                 message: 'Fail to update a Customer!',
-                messageType: 'failed',
+                messageType: 'fail',
               })
             )
           )
@@ -113,7 +116,7 @@ export class CustomerEffects {
               loadCustomerFail({ errorMessage: _error.message }),
               showAlert({
                 message: 'Failed to delete a Customer!',
-                messageType: 'failed',
+                messageType: 'fail',
               })
             )
           )
@@ -121,4 +124,30 @@ export class CustomerEffects {
       })
     )
   );
+
+  _showAlert = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(showAlert),
+      exhaustMap((action) => {
+        return this.showSnackBar(action.message, action.messageType)
+          .afterDismissed()
+          .pipe(
+            map(() => {
+              return emptyAction();
+            })
+          );
+      })
+    );
+  });
+
+  showSnackBar(message: string, type: string = 'fail') {
+    let _class = type === 'pass' ? 'text-green' : 'text-red';
+
+    return this._snakeBar.open(message, 'OK', {
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+      duration: 5000,
+      panelClass: [_class],
+    });
+  }
 }

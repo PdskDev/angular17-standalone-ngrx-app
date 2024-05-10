@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomerRequest } from '../../../_model/customer';
+import { Store } from '@ngrx/store';
+import { addCustomer } from '../../_store/customers/customers.actions';
 
 @Component({
   selector: 'app-add-customer',
@@ -13,7 +15,7 @@ import { CustomerRequest } from '../../../_model/customer';
   styleUrl: './add-customer.component.css',
 })
 export class AddCustomerComponent {
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private readonly customerStore: Store) {}
 
   customerForm = this.fb.group({
     code: this.fb.control('', Validators.required),
@@ -30,6 +32,8 @@ export class AddCustomerComponent {
         email: this.customerForm.value.email as string,
         phone: this.customerForm.value.phone as string,
       };
+
+      this.customerStore.dispatch(addCustomer({ customerData: newCustomer }));
     }
   }
 }
