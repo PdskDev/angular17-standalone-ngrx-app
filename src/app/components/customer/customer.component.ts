@@ -3,7 +3,7 @@ import { MasterService } from '../../_service/master.service';
 import { Post } from '../../../_model/post';
 import { Customer } from '../../../_model/customer';
 import { map, switchMap } from 'rxjs';
-import { ListeOfCustomers } from '../../../_model/listeOfCustomer';
+import { CustomerListResponse } from '../../../_model/customerListResponse';
 import { AppMaterialModule } from '../../../_module/material.module';
 import { MatTableDataSource } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
@@ -30,7 +30,7 @@ export class CustomerComponent implements OnInit {
 
   loadInitialCustomersData() {
     this.masterService.getApiCustomersAll().subscribe({
-      next: (list: ListeOfCustomers) => {
+      next: (list: CustomerListResponse) => {
         this.listCustomers = list.data;
         this.customersDataSource = new MatTableDataSource(this.listCustomers);
       },

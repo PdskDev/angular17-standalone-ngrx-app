@@ -7,13 +7,15 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tokenInterceptorInterceptor } from './_service/token-interceptor.interceptor';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
+import { CustomerReducer } from './_store/customers/customers.reducers';
+import { CustomerEffects } from './_store/customers/customers.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptors([tokenInterceptorInterceptor])),
-    provideStore(),
-    provideEffects()
-],
+    provideStore({ customers: CustomerReducer }),
+    provideEffects([CustomerEffects]),
+  ],
 };

@@ -1,9 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Post } from '../../_model/post';
-import { Customer } from '../../_model/customer';
-import { Observable, of, tap } from 'rxjs';
-import { ListeOfCustomers } from '../../_model/listeOfCustomer';
+import { Observable } from 'rxjs';
+import { CustomerListResponse } from '../../_model/customerListResponse';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +9,7 @@ import { ListeOfCustomers } from '../../_model/listeOfCustomer';
 export class MasterService {
   constructor(private http: HttpClient) {}
 
-  demoList = {
+  /* demoList = {
     list: [
       {
         createdAt: '2024-05-09T20:24:09.940Z',
@@ -53,23 +51,14 @@ export class MasterService {
       pageSize: 20,
       totalPage: 1,
     },
-  };
+  }; */
 
-  // getAll() {
-  //   return this.http.get<Post[]>('/api/posts');
-  // }
-
-  // getApiBooksAll() {
-  //   const apiURL = '/api/mj0418ey9l444mj/records';
-  //   return this.http.get<Post[]>(apiURL);
-  // }
-
-  getApiCustomersAll(): Observable<ListeOfCustomers> {
+  getApiCustomersAll(): Observable<CustomerListResponse> {
     const url = '/bff/api/customers:list';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    return this.http.get<ListeOfCustomers>(url, { headers });
+    return this.http.get<CustomerListResponse>(url, { headers });
 
     //return of(this.demoList);
   }

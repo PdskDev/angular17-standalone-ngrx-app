@@ -1,6 +1,6 @@
 import { Customer } from './customer';
 
-export interface ListeOfCustomers {
+export interface CustomerListResponse {
   data: Customer[];
   meta: {
     count: number;
