@@ -4,9 +4,17 @@
   </mat-card-header>
   <mat-card-content>
     <table mat-table matSort [dataSource]="customersDataSource">
-      <ng-container matColumnDef="{{innercolumn}}" *ngFor="let innercolumn of customerDisplayColumn">
-        <th mat-sort-header mat-header-cell *matHeaderCellDef>{{innercolumn}}</th>
-        <th mat-cell *matCellDef="let element">{{element[innercolumn]}}</th>
+      <ng-container matColumnDef="{{innerColName}}" *ngFor="let innerColName of customerDisplayColumn">
+        <th mat-sort-header mat-header-cell *matHeaderCellDef>{{innerColName}}</th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="innerColName!=='actions'">
+            {{element[innerColName]}}
+          </span>
+          <div *ngIf="innerColName=='actions'">
+            <button (click)="editCustomer(element.id)" mat-raised-button color="primary">Edit</button>
+            <button (click)="deleteCustomer(element.id)" mat-raised-button color="accent">Delete</button>
+          </div>
+        </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="customerDisplayColumn" style="background-color: rgb(91, 91, 221); color: white;"></tr>
       <tr mat-row *matRowDef="let row; columns: customerDisplayColumn"></tr>

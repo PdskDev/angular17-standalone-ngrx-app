@@ -45,7 +45,10 @@ export const deleteCustomer = createAction(
   DELETE_CUSTOMER,
   props<{ id: number }>()
 );
-export const deleteCustomerSuccess = createAction(DELETE_CUSTOMER_SUCCESS);
+export const deleteCustomerSuccess = createAction(
+  DELETE_CUSTOMER_SUCCESS,
+  props<{ id: number }>()
+);
 
 export const showAlert = createAction(
   SHOW_ALERT,

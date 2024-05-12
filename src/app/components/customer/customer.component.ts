@@ -8,7 +8,10 @@ import { AppMaterialModule } from '../../../_module/material.module';
 import { MatTableDataSource } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { loadCustomer } from '../../_store/customers/customers.actions';
+import {
+  deleteCustomer,
+  loadCustomer,
+} from '../../_store/customers/customers.actions';
 import { selectCustomersList } from '../../_store/customers/customers.selectors';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -26,7 +29,13 @@ export class CustomerComponent implements OnInit {
   listPosts!: Post[];
   listCustomers!: Customer[];
   customersDataSource: any;
-  customerDisplayColumn: string[] = ['code', 'name', 'email', 'phone'];
+  customerDisplayColumn: string[] = [
+    'code',
+    'name',
+    'email',
+    'phone',
+    'actions',
+  ];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -58,5 +67,13 @@ export class CustomerComponent implements OnInit {
         this.customersDataSource.paginator = this.paginator;
         this.customersDataSource.sort = this.sort;
       });
+  }
+
+  editCustomer(id: number) {}
+
+  deleteCustomer(id: number) {
+    if (confirm('Are you sure to delete this customer ?')) {
+      this.customerStore.dispatch(deleteCustomer({ id: id }));
+    }
   }
 }

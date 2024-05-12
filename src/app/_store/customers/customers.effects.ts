@@ -104,9 +104,9 @@ export class CustomerEffects {
         return this.masterService.deleteCustomer(action.id).pipe(
           switchMap(() => {
             return of(
-              deleteCustomerSuccess(),
+              deleteCustomerSuccess({ id: action.id }),
               showAlert({
-                message: 'Customer deleted successfully!',
+                message: `Customer #id ${action.id} was deleted successfully!`,
                 messageType: 'pass',
               })
             );

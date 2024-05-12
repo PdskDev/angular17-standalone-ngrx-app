@@ -1,6 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialCustomerState } from './customers.state';
-import { loadCustomerFail, loadCustomerSuccess } from './customers.actions';
+import {
+  deleteCustomerSuccess,
+  loadCustomerFail,
+  loadCustomerSuccess,
+} from './customers.actions';
 
 const _CustomerReducer = createReducer(
   initialCustomerState,
@@ -16,6 +20,14 @@ const _CustomerReducer = createReducer(
       ...state,
       list: [],
       errorMessage: action.errorMessage,
+    };
+  }),
+  on(deleteCustomerSuccess, (state, action) => {
+    let _customersList = state.list.filter((c) => c.id !== action.id);
+    return {
+      ...state,
+      list: _customersList,
+      errorMessage: '',
     };
   })
 );
