@@ -20,4 +20,12 @@ export const routes: Routes = [
       ),
     canActivate: [authGuard],
   },
+  {
+    path: 'customer/edit/:id',
+    loadComponent: () =>
+      import('./components/add-customer/add-customer.component').then(
+        (m) => m.AddCustomerComponent
+      ),
+    canActivate: [authGuard],
+  },
 ];

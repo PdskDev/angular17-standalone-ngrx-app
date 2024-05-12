@@ -1,12 +1,12 @@
 <form [formGroup]="customerForm" (ngSubmit)="saveCustomer()">
   <mat-card>
     <mat-card-header>
-      <h1>Add Customer</h1>
+      <h1>{{pageTitle}}</h1>
     </mat-card-header>
     <mat-card-content>
       <mat-form-field>
         <mat-label>Code</mat-label>
-        <input matInput formControlName="code" />
+        <input matInput formControlName="code"/>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Name</mat-label>

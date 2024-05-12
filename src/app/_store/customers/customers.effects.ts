@@ -10,12 +10,16 @@ import {
   loadCustomer,
   loadCustomerFail,
   loadCustomerSuccess,
+  loadCustomerToEdit,
+  loadCustomerToEditFail,
+  loadCustomerToEditSuccess,
   showAlert,
   updateCustomer,
   updateCustomerSuccess,
 } from './customers.actions';
 import { catchError, exhaustMap, map, of, switchMap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CustomerResponse } from '../../../_model/customerResponse';
 
 @Injectable()
 export class CustomerEffects {
@@ -29,7 +33,7 @@ export class CustomerEffects {
     this.actions$.pipe(
       ofType(loadCustomer),
       exhaustMap((action) => {
-        return this.masterService.getApiCustomersAll().pipe(
+        return this.masterService.getCustomersAll().pipe(
           map((customerListResponse) => {
             return loadCustomerSuccess({ list: customerListResponse.data });
           }),
@@ -73,26 +77,28 @@ export class CustomerEffects {
     this.actions$.pipe(
       ofType(updateCustomer),
       switchMap((action) => {
-        return this.masterService.createNewCustomer(action.customerData).pipe(
-          switchMap(() => {
-            return of(
-              updateCustomerSuccess(),
-              showAlert({
-                message: 'Customer updated successfully!',
-                messageType: 'pass',
-              })
-            );
-          }),
-          catchError((_error) =>
-            of(
-              loadCustomerFail({ errorMessage: _error.message }),
-              showAlert({
-                message: 'Fail to update a Customer!',
-                messageType: 'fail',
-              })
+        return this.masterService
+          .updateCustomer(action.id, action.customerData)
+          .pipe(
+            switchMap(() => {
+              return of(
+                updateCustomerSuccess(),
+                showAlert({
+                  message: 'Customer updated successfully!',
+                  messageType: 'pass',
+                })
+              );
+            }),
+            catchError((_error) =>
+              of(
+                loadCustomerFail({ errorMessage: _error.message }),
+                showAlert({
+                  message: 'Fail to update a Customer!',
+                  messageType: 'fail',
+                })
+              )
             )
-          )
-        );
+          );
       })
     )
   );
@@ -116,6 +122,30 @@ export class CustomerEffects {
               loadCustomerFail({ errorMessage: _error.message }),
               showAlert({
                 message: 'Failed to delete a Customer!',
+                messageType: 'fail',
+              })
+            )
+          )
+        );
+      })
+    )
+  );
+
+  _loadCustomerToEdit = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadCustomerToEdit),
+      exhaustMap((action) => {
+        return this.masterService.getCustomerById(action.id).pipe(
+          map((customerResponse: CustomerResponse) => {
+            return loadCustomerToEditSuccess({
+              customerOnEdit: customerResponse.data,
+            });
+          }),
+          catchError((_error) =>
+            of(
+              loadCustomerToEditFail({ errorMessage: _error.message }),
+              showAlert({
+                message: `Failed to load data of customer #${action.id}`,
                 messageType: 'fail',
               })
             )

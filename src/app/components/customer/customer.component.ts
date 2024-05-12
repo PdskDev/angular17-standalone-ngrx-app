@@ -15,7 +15,7 @@ import {
 import { selectCustomersList } from '../../_store/customers/customers.selectors';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-customer',
@@ -40,7 +40,7 @@ export class CustomerComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   //constructor(private masterService: MasterService) {}
-  constructor(private readonly customerStore: Store) {}
+  constructor(private readonly customerStore: Store, private router: Router) {}
   ngOnInit(): void {
     //this.loadInitialPostsData();
     this.loadInitialCustomersData();
@@ -69,7 +69,9 @@ export class CustomerComponent implements OnInit {
       });
   }
 
-  editCustomer(id: number) {}
+  editCustomer(id: number) {
+    this.router.navigateByUrl('/customer/edit/' + id);
+  }
 
   deleteCustomer(id: number) {
     if (confirm('Are you sure to delete this customer ?')) {

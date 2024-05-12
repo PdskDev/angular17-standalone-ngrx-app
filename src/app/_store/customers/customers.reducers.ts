@@ -4,6 +4,9 @@ import {
   deleteCustomerSuccess,
   loadCustomerFail,
   loadCustomerSuccess,
+  loadCustomerToEdit,
+  loadCustomerToEditFail,
+  loadCustomerToEditSuccess,
 } from './customers.actions';
 
 const _CustomerReducer = createReducer(
@@ -28,6 +31,30 @@ const _CustomerReducer = createReducer(
       ...state,
       list: _customersList,
       errorMessage: '',
+    };
+  }),
+  on(loadCustomerToEditSuccess, (state, action) => {
+    return {
+      ...state,
+      customerToEdit: action.customerOnEdit,
+      errorMessage: '',
+    };
+  }),
+  on(loadCustomerToEditFail, (state, action) => {
+    return {
+      ...state,
+      customerToEdit: {
+        createdAt: '',
+        updatedAt: '',
+        createdById: 0,
+        updatedById: 0,
+        id: 0,
+        code: '',
+        name: '',
+        email: '',
+        phone: '',
+      },
+      errorMessage: action.errorMessage,
     };
   })
 );

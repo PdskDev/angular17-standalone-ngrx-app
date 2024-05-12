@@ -1,5 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { Customer, CustomerRequest } from '../../../_model/customer';
+import { Customer } from '../../../_model/customer';
+import { CustomerRequest } from '../../../_model/customerRequest';
+import { CustomerResponse } from '../../../_model/customerResponse';
 
 export const LOAD_CUSTOMER = '[Customer] load customer';
 export const LOAD_CUSTOMER_SUCCESS = '[Customer] load customer success';
@@ -19,6 +21,11 @@ export const DELETE_CUSTOMER_SUCCESS = '[Customer] delete customer success';
 
 export const SHOW_ALERT = '[Customer] show alert';
 
+export const LOAD_EDIT_CUSTOMER = '[Customer] load edit customer';
+export const LOAD_EDIT_CUSTOMER_SUCCESS =
+  '[Customer] load edit customer success';
+export const LOAD_EDIT_CUSTOMER_FAIL = '[Customer] load edit customer failed';
+
 export const loadCustomer = createAction(LOAD_CUSTOMER);
 export const loadCustomerSuccess = createAction(
   LOAD_CUSTOMER_SUCCESS,
@@ -37,7 +44,7 @@ export const addCustomerSuccess = createAction(ADD_CUSTOMER_SUCCESS);
 
 export const updateCustomer = createAction(
   UPDATE_CUSTOMER,
-  props<{ customerData: CustomerRequest }>()
+  props<{ id: number; customerData: CustomerRequest }>()
 );
 export const updateCustomerSuccess = createAction(UPDATE_CUSTOMER_SUCCESS);
 
@@ -48,6 +55,19 @@ export const deleteCustomer = createAction(
 export const deleteCustomerSuccess = createAction(
   DELETE_CUSTOMER_SUCCESS,
   props<{ id: number }>()
+);
+
+export const loadCustomerToEdit = createAction(
+  LOAD_EDIT_CUSTOMER,
+  props<{ id: number }>()
+);
+export const loadCustomerToEditSuccess = createAction(
+  LOAD_EDIT_CUSTOMER_SUCCESS,
+  props<{ customerOnEdit: CustomerResponse['data'] }>()
+);
+export const loadCustomerToEditFail = createAction(
+  LOAD_EDIT_CUSTOMER_FAIL,
+  props<{ errorMessage: string }>()
 );
 
 export const showAlert = createAction(
